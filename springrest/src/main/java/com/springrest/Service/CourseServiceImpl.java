@@ -1,11 +1,10 @@
 package com.springrest.Service;
+
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.springrest.entities.Course;
 import com.springrest.entities.CourseException;
 import com.springrest.repository.CourseRepository;
@@ -43,14 +42,11 @@ public class CourseServiceImpl implements CourseService{
         return this.courseRepository.findAll();
         
     }
-
+   
     @Override
-    public Course getCourseById(String id) throws CourseException {
-        Optional<Course> course = courseRepository.findById(id);
-        if (course.isEmpty())
-            throw new CourseException("Course not present");
-        return course.get();
-    }
+	public Course getCourseById(String id) {
+		return courseRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("invalid  course id"));
+	}
     
     @Override
     public Course getCourseByName(String name) throws CourseException {
@@ -59,7 +55,6 @@ public class CourseServiceImpl implements CourseService{
             return course.get();
         else
             throw new CourseException("Course not found");
-
 }
 
     @Override
